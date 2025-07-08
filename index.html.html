@@ -1,0 +1,223 @@
+    <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jazim javid</title>
+  <style>
+    :root {
+      --primary-blue: #007BFF;
+      --background-black: #121212;
+      --text-white: #ffffff;
+      --highlight-blue: #00c6ff;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--background-black);
+      background-image: url('https://images.unsplash.com/photo-1516979187457-637abb4f9356?auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      color: var(--text-white);
+    }
+
+    header {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 20px;
+      text-align: center;
+      font-size: 2em;
+      color: var(--highlight-blue);
+      animation: fadeIn 1s ease-out;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.8);
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 20px;
+      border-radius: 12px;
+      animation: fadeIn 2s;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+    }
+
+    input,
+    button {
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 1rem;
+      border: none;
+      margin: 5px 5px 5px 0;
+    }
+
+    input {
+      width: calc(100% - 22px);
+      margin-bottom: 10px;
+      background-color: #222;
+      color: var(--text-white);
+      border: 1px solid #444;
+    }
+
+    button {
+      background-color: var(--primary-blue);
+      color: var(--text-white);
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    .bubble {
+      background-color: #1f1f1f;
+      padding: 10px;
+      margin-top: 15px;
+      border-left: 4px solid var(--highlight-blue);
+      border-radius: 8px;
+      animation: fadeInBubble 0.5s ease-in-out;
+    }
+
+    .gallery-link {
+      display: inline-block;
+      background: var(--highlight-blue);
+      padding: 8px 12px;
+      margin: 5px 5px 5px 0;
+      border-radius: 8px;
+      color: #000;
+      text-decoration: none;
+      font-weight: bold;
+      transition: transform 0.2s ease;
+    }
+
+    .gallery-link:hover {
+      transform: scale(1.1);
+    }
+
+    #howToUse {
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 10px;
+      margin-top: 20px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInBubble {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>study helping site made with ❤ by jazim javid</header>
+  <div class="container">
+    <input id="questionInput" placeholder="Ask your question...">
+    <button onclick="handleQuestion()">Ask</button>
+    <button onclick="startVoice()">🎤 Voice</button>
+    <button onclick="clearHistory()">🗑️ Clear History</button>
+    <div id="chatBox"></div>
+
+    <h3>🌸 Flower Gallery</h3>
+    <a class="gallery-link" href="https://www.google.com/search?q=rose+flower&tbm=isch" target="_blank">Rose</a>
+    <a class="gallery-link" href="https://www.google.com/search?q=sunflower+flower&tbm=isch"
+      target="_blank">Sunflower</a>
+    <a class="gallery-link" href="https://www.google.com/search?q=lotus+flower&tbm=isch" target="_blank">Lotus</a>
+
+    <h3>🐾 Animal Gallery</h3>
+    <a class="gallery-link" href="https://www.google.com/search?q=lion+animal&tbm=isch" target="_blank">Lion</a>
+    <a class="gallery-link" href="https://www.google.com/search?q=elephant+animal&tbm=isch" target="_blank">Elephant</a>
+    <a class="gallery-link" href="https://www.google.com/search?q=cat+animal&tbm=isch" target="_blank">Cat</a>
+
+    <div id="howToUse">
+      <h4>🛠️ How to Use:</h4>
+      <ul>
+        <li>Type your question in the input box or click 🎤 to speak it.</li>
+        <li>Click <strong>Ask</strong> to get an answer. The reply is spoken too!</li>
+        <li>If not known, it will open a Wikipedia link.</li>
+        <li>Click 🗑️ to clear the answer history any time.</li>
+        <li>Click any flower or animal name to view pictures.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      speechSynthesis.speak(utterance);
+    }
+
+    function handleQuestion() {
+      const input = document.getElementById("questionInput").value.toLowerCase();
+      const chatBox = document.getElementById("chatBox");
+      let response = "according to wikipedia";
+
+      if (input.includes("gravity")) response = "Gravity is a force that pulls things towards Earth.";
+      else if (input.includes("einstein")) response = "Einstein was a famous physicist who developed the theory of relativity.";
+      else if (input.includes("photosynthesis")) response = "Photosynthesis is how plants convert sunlight into energy.";
+      else if (input.includes("capital of india")) response = "The capital of India is New Delhi.";
+      else if (input.includes("cricket")) response = "Cricket is a popular sport played with bat and ball.";
+      else if (input.includes("computer")) response = "A computer is an electronic device for storing and processing data.";
+      else if (input.includes("mount everest")) response = "Mount Everest is the tallest mountain in the world, located in the Himalayas.";
+      else if (input.includes("image") || input.includes("photo") || input.includes("pic")) {
+        const query = encodeURIComponent(input);
+        window.open(`https://www.google.com/search?q=${query}&tbm=isch`, '_blank');
+        response = `Opening image results for: ${input}`;
+      } else {
+        window.open("https://en.wikipedia.org/wiki/" + encodeURIComponent(input), '_blank');
+      }
+
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+      bubble.textContent = response;
+      chatBox.prepend(bubble);
+      speak(response);
+    }
+
+    function startVoice() {
+      if (!('webkitSpeechRecognition' in window)) {
+        alert("Voice recognition only works in Chrome.");
+        return;
+      }
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.start();
+
+      recognition.onresult = function (event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById("questionInput").value = transcript;
+        handleQuestion();
+      };
+    }
+
+    function clearHistory() {
+      document.getElementById("chatBox").innerHTML = "";
+    }
+  </script>
+</body>
+
+</html>
